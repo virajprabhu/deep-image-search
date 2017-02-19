@@ -5,7 +5,7 @@
         <form action="." method="POST">
         {% csrf_token %}
             <div class="input-field">
-                <input id="query" type="search" name="query" required autocomplete="off">
+                <input id="query" type="search" name="query" value="{{query}}" required autocomplete="off">
                 <label class="label-icon" for="search"><i class="material-icons">search</i>Start typing something about image....</label>
                 <i class="material-icons">close</i>
             </div>
@@ -14,18 +14,17 @@
 </nav>
 <!-- </div> -->
 {% endblock %} {% block sidebar %} {% endblock %} {% block messages %}
-<div class="row">
-    {% for image in image_path_list%}
-    <div class="col s3">
-        <div class="card ">
+<div class="row container">
+    {% for image, caption in image_path_list%}
+    <div class="col l4 s12">
+        <div class="card">
             <div class="card-image">
-                <img class="imageCard " src="{{ image }}">
+                <img class="imageCard" src="{{ image }}">
                 <!-- <span class="card-title">Card Title</span> -->
             </div>
             <!-- <div class="card-content">
-          <p>I am a very simple card. I am good at containing small bits of information.
-          I am convenient because I require little markup to use effectively.</p>
-        </div> -->
+              <p>{{ caption }}</p>
+            </div> -->
             <!-- <div class="card-action">
           <a href="#">This is a link</a>
         </div> -->

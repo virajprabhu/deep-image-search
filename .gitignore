@@ -3,3 +3,4 @@ env/
 deep_search/data/GoogleNews-vectors-negative300.bin
 deep_search/db.sqlite3
 deep_search/media/
+deep_search/chat/static/images/val2014
