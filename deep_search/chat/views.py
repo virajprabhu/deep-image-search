@@ -28,6 +28,7 @@ t = AnnoyIndex(300, metric='euclidean')
 t.load("data/index.ann")    
 ix2imid = pickle.load(open("data/ix2imid.p", "rb"))
 
+
 def compute_score(caption):
     words = parse_sen(caption)
     count = 0
@@ -40,6 +41,7 @@ def compute_score(caption):
         return caption_score
     return caption_score / float(count)
 
+
 def parse_sen(sentence):
     valid_chars = string.ascii_letters + string.digits + '  '
     sentence = ''.join(c for c in sentence if c in valid_chars)
@@ -51,35 +53,29 @@ def parse_sen(sentence):
     result = sen_wordlist
     return result
 
+
 def home(request, template_name="chat/index.html"):
     socketid = uuid.uuid4()
-    intro_message = random.choice(constants.BOT_INTRODUCTION_MESSAGE)
+    image_list = constants.LIST_OF_IMAGES
     if request.method == "POST":
         try:
             socketid = request.POST.get("socketid")
-            question = request.POST.get("question")
-            # question = question.replace("?", "").lower()
-            # img_path = request.POST.get("img_path")
-            # history = request.POST.get("history", "")
+            query = request.POST.get("query")
 
-            # img_path = urllib2.unquote(img_path)
-            # abs_image_path = str(img_path)
-
-            score = compute_score(question)
+            score = compute_score(query)
             nns = t.get_nns_by_vector(score, 5)
             closest_images = [ix2imid[ix] for ix in nns]
-            
-            # check if the question contains "?" at the end
-            # q_tokens = word_tokenize(str(question))
-            # if q_tokens[-1] != "?":
-            #     question = "{0}{1}".format(question, "?")
-
-            # response = vqa_sender(str(question), str(abs_image_path), socketid)
-            log_to_terminal(socketid, {"show_images": closest_images})
+            image_list = closest_images
+            # image_path_list = [os.path.join(settings.STATIC_URL, 'images', 'val2014', 'COCO_val2014_' + str(image_id).zfill(12) + '.jpg') for image_id in image_list]
+            # return JsonResponse({'result': image_path_list})
+            # log_to_terminal(socketid, {"show_images": closest_images})
+            # log_to_terminal(socketid, {"show_images": "hello"})
         except Exception, err:
-            log_to_terminal(socketid, {"terminal": traceback.print_exc()})
+            print str(err)
+            # log_to_terminal(socketid, {"terminal": traceback.print_exc()})
 
-    return render(request, template_name, {"socketid": socketid, "bot_intro_message": intro_message })
+    image_path_list = [os.path.join(settings.STATIC_URL, 'images', 'val2014', 'COCO_val2014_' + str(image_id).zfill(12) + '.jpg') for image_id in image_list]
+    return render(request, template_name, {"socketid": socketid, "image_path_list": image_path_list, 'image_list': image_list})
 
 
 def upload_image(request):

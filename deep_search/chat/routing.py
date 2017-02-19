@@ -7,5 +7,5 @@ ws_routing = [
 ]
 
 channel_routing = [
-    include(ws_routing, path=r"^/chat"),
+    include(ws_routing, path=r"^/chat/"),
 ]

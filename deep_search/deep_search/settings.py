@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'vqa',
     # 'captioning',
     'rest_framework',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -130,4 +131,15 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': (
         'rest_framework.pagination.LimitOffsetPagination'),
     'PAGE_SIZE': 10,
+}
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+            # "prefix": u"deep_search:",
+        },
+        "ROUTING": "chat.routing.channel_routing",
+    },
 }
