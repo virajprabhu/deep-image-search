@@ -5,12 +5,13 @@
   <input id="tags" size="50">
 </div> -->
   <div class="navbar-fixed">
+  <!-- <h3>FilterAI</h3> -->
   <nav class="container searchHeader">
       <div class="nav-wrapper fixed">
           <form action="." method="POST">
           {% csrf_token %}
               <div class="input-field">
-                  <input id="query" type="search" name="query" value="{{query}}" placeholder="What are you looking for?" required size="10" autocomplete="off">
+                  <input id="query" type="search" name="query" value="{{query}}" placeholder="FilterAI: What are you looking for?" required size="10" autocomplete="off">
                   <label class="label-icon" for="search"><i class="material-icons">search</i></label>
                   <i class="material-icons closeButton">close</i>
               </div>
@@ -34,6 +35,8 @@
 <script type="text/javascript">
   $('.closeButton').click(function () {
     $("#query").val('');
+    // window.location = window.location.pathname;
+    // window.location.reload();
   })
 </script>
 {% endblock %}

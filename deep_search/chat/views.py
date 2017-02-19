@@ -65,7 +65,7 @@ def home(request, template_name="chat/index.html"):
         query = request.POST.get("query")
 
         score = compute_score(query)
-        nns = t.get_nns_by_vector(score, 5)
+        nns = t.get_nns_by_vector(score, 9)
 
         closest_images = [ix2imid[ix] for ix in nns]
         closest_captions = [caption_list[ix] for ix in nns]
