@@ -27,7 +27,7 @@ print "Loaded successfully"
 t = AnnoyIndex(300, metric='euclidean')
 t.load("data/index.ann")    
 ix2imid = pickle.load(open("data/ix2imid.p", "rb"))
-
+print ix2imid
 
 def compute_score(caption):
     words = parse_sen(caption)
@@ -57,6 +57,8 @@ def parse_sen(sentence):
 def home(request, template_name="chat/index.html"):
     socketid = uuid.uuid4()
     image_list = constants.LIST_OF_IMAGES
+    caption_list = constants.LIST_OF_CAPTIONS
+    query = ''
     if request.method == "POST":
         try:
             socketid = request.POST.get("socketid")
@@ -64,18 +66,19 @@ def home(request, template_name="chat/index.html"):
 
             score = compute_score(query)
             nns = t.get_nns_by_vector(score, 5)
+
             closest_images = [ix2imid[ix] for ix in nns]
+            closest_captions = [caption_list[ix] for ix in nns]
+
             image_list = closest_images
-            # image_path_list = [os.path.join(settings.STATIC_URL, 'images', 'val2014', 'COCO_val2014_' + str(image_id).zfill(12) + '.jpg') for image_id in image_list]
-            # return JsonResponse({'result': image_path_list})
-            # log_to_terminal(socketid, {"show_images": closest_images})
-            # log_to_terminal(socketid, {"show_images": "hello"})
+            caption_list = closest_captions
         except Exception, err:
             print str(err)
-            # log_to_terminal(socketid, {"terminal": traceback.print_exc()})
 
-    image_path_list = [os.path.join(settings.STATIC_URL, 'images', 'val2014', 'COCO_val2014_' + str(image_id).zfill(12) + '.jpg') for image_id in image_list]
-    return render(request, template_name, {"socketid": socketid, "image_path_list": image_path_list, 'image_list': image_list})
+    image_path_list = [os.path.join(settings.STATIC_URL, 'images', 'val2014', image_id + '.jpg') for image_id in image_list]
+    image_caption_list = zip(image_path_list, caption_list)
+
+    return render(request, template_name, {"socketid": socketid, "image_path_list": image_caption_list, 'query': query})
 
 
 def upload_image(request):
