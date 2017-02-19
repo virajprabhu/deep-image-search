@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'chat',
     'vqa',
-    'captioning',
+    # 'captioning',
     'rest_framework',
 ]
 
