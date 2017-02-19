@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'vqa',
     # 'captioning',
     'rest_framework',
-    'channels',
+    # 'channels',
 ]
 
 MIDDLEWARE = [

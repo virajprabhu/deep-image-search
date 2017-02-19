@@ -18,7 +18,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^api/vqa', include('vqa.urls', namespace='vqa')),
-    url(r'^chat/', include('chat.urls')),
+    url(r'^$', include('chat.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^admin/', admin.site.urls),
 ]

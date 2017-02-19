@@ -60,25 +60,25 @@ def home(request, template_name="chat/index.html"):
     caption_list = constants.LIST_OF_CAPTIONS
     query = ''
     if request.method == "POST":
-        try:
-            socketid = request.POST.get("socketid")
-            query = request.POST.get("query")
+        # try:
+        socketid = request.POST.get("socketid")
+        query = request.POST.get("query")
 
-            score = compute_score(query)
-            nns = t.get_nns_by_vector(score, 5)
+        score = compute_score(query)
+        nns = t.get_nns_by_vector(score, 5)
 
-            closest_images = [ix2imid[ix] for ix in nns]
-            closest_captions = [caption_list[ix] for ix in nns]
+        closest_images = [ix2imid[ix] for ix in nns]
+        closest_captions = [caption_list[ix] for ix in nns]
 
-            image_list = closest_images
-            caption_list = closest_captions
-        except Exception, err:
-            print str(err)
+        image_list = closest_images
+        caption_list = closest_captions
+        # except Exception, err:
+        #     print str(err)
 
     image_path_list = [os.path.join(settings.STATIC_URL, 'images', 'val2014', image_id + '.jpg') for image_id in image_list]
     image_caption_list = zip(image_path_list, caption_list)
 
-    return render(request, template_name, {"socketid": socketid, "image_path_list": image_caption_list, 'query': query, 'suggestions': constants.AUTOCOMPLETE_SUGGESTIONS})
+    return render(request, template_name, {"socketid": socketid, "image_path_list": image_caption_list[:500], 'query': query, 'suggestions': constants.AUTOCOMPLETE_SUGGESTIONS})
 
 
 def upload_image(request):
