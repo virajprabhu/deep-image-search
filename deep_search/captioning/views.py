@@ -29,11 +29,11 @@ def image_captioning_list(request):
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        serializer = ImageCaptioningSerializer(data=request.data)
+        serializer = ImageCaptioningSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
-            print serializer.data
-            # send_image_for_captioning(image_path)
+            image_path = serializer.data['file']
+            send_image_for_captioning(os.path.join(settings.BASE_DIR, image_path))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

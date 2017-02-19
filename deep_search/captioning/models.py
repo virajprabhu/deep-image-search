@@ -20,7 +20,7 @@ class ImageCaptioning(TimeStampedModel):
     """
     Model to store the Image Captioning objects
     """
-    image = models.ImageField(upload_to='image-captioning')
+    file = models.ImageField(upload_to='image-captioning')
     caption = models.CharField(max_length=10000, null=True)
 
     def __unicode__(self):

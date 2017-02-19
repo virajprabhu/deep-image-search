@@ -1,0 +1,3 @@
+[submodule "deep_search/captioning/neuraltalk2"]
+	path = deep_search/captioning/neuraltalk2
+	url = https://github.com/karpathy/neuraltalk2.git
