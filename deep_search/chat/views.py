@@ -78,7 +78,7 @@ def home(request, template_name="chat/index.html"):
     image_path_list = [os.path.join(settings.STATIC_URL, 'images', 'val2014', image_id + '.jpg') for image_id in image_list]
     image_caption_list = zip(image_path_list, caption_list)
 
-    return render(request, template_name, {"socketid": socketid, "image_path_list": image_caption_list, 'query': query})
+    return render(request, template_name, {"socketid": socketid, "image_path_list": image_caption_list, 'query': query, 'suggestions': constants.AUTOCOMPLETE_SUGGESTIONS})
 
 
 def upload_image(request):

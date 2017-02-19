@@ -1,102 +1,39 @@
 {% extends 'chat/base.html' %} {% load static %} {% block header%}
-<!-- <div class="navbar-fixed"> -->
-<nav class="container searchHeader">
-    <div class="nav-wrapper fixed">
-        <form action="." method="POST">
-        {% csrf_token %}
-            <div class="input-field">
-                <input id="query" type="search" name="query" value="{{query}}" required autocomplete="off">
-                <label class="label-icon" for="search"><i class="material-icons">search</i>Start typing something about image....</label>
-                <i class="material-icons">close</i>
-            </div>
-        </form>
-    </div>
-</nav>
-<!-- </div> -->
+<!-- <div class="row"> -->
+<!-- <div class="ui-widget">
+  <label for="tags">Tag programming languages: </label>
+  <input id="tags" size="50">
+</div> -->
+  <div class="navbar-fixed">
+  <nav class="container searchHeader">
+      <div class="nav-wrapper fixed">
+          <form action="." method="POST">
+          {% csrf_token %}
+              <div class="input-field">
+                  <input id="query" type="search" name="query" value="{{query}}" placeholder="What are you looking for?" required size="10" autocomplete="off">
+                  <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                  <i class="material-icons closeButton">close</i>
+              </div>
+          </form>
+      </div>
+  </nav>
+  </div>
 {% endblock %} {% block sidebar %} {% endblock %} {% block messages %}
-<div class="row container">
+<div class="row container photosDiv">
     {% for image, caption in image_path_list%}
     <div class="col l4 s12">
         <div class="card">
             <div class="card-image">
                 <img class="imageCard" src="{{ image }}">
-                <!-- <span class="card-title">Card Title</span> -->
             </div>
-            <!-- <div class="card-content">
-              <p>{{ caption }}</p>
-            </div> -->
-            <!-- <div class="card-action">
-          <a href="#">This is a link</a>
-        </div> -->
         </div>
     </div>
     {% endfor %}
 </div>
 {% endblock %} {% block message_typing %}
 <script type="text/javascript">
-  // function submitQuery() {
-  //     var query = $("#query").val();
-  //     if (query.length >= 10) {
-  //         console.log(query.length);
-  //         console.log("Question submitted");
-  //         // $("#query").val('');
-
-  //         var formData = new FormData();
-  //         formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-  //         formData.append('socketid', '{{ socketid }}');
-  //         formData.append('query', query);
-  //         $.ajax({
-  //                 type: 'POST', // define the type of HTTP verb we want to use (POST for our form)
-  //                 url: '{% url 'home' %}', // the url where we want to POST
-  //                 data: formData,
-  //                 processData: false, // tell jQuery not to process the data
-  //                 contentType: false,
-  //             })
-  //             .done(function(response) {
-  //                 console.log("Question submitted successfully.");
-  //                 image_list = response.result;
-  //                 console.log(image_list);
-  //             });
-  //     }
-  //     else{
-  //       Materialize.toast('Please enter a longer query!', 4000)
-  //     }
-  // }
-</script>
-
-<script type="text/javascript">
-  // var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-  // var socket = new WebSocket(ws_scheme + '://' + window.location.host + window.location.pathname);
-  // socket.onopen = function() {
-  //     console.log("User connected to the socket with socketid " + "{{socketid}}");
-  //     socket.send("{{ socketid }}");
-  // }
-  // socket.onmessage = function(response) {
-  //     console.log("Getting response from the worker.....");
-  //     console.log(JSON.parse(response.data));
-  //     response = JSON.parse(response.data);
-  //     if ("info" in response) {
-  //         console.log("Info is there as the key");
-  //     }
-  //     if ("terminal" in response) {
-  //         // console.log(response['terminal']);
-  //     }
-  //     if ("result" in response) {
-  //         result = JSON.parse(response['result']);
-  //         console.log(result);
-  //     }
-  //     if ('show_images' in response) {
-  //       console.log(response);
-  //     }
-  // }
-
-  // Press enter key when click the send button
-
-  // $('#query').keypress(function(e) {
-  //     if(e.which == 13) {
-  //       submitQuery();
-  //     }
-  // });
- 
+  $('.closeButton').click(function () {
+    $("#query").val('');
+  })
 </script>
 {% endblock %}
